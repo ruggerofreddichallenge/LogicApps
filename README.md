@@ -11,7 +11,7 @@ Logic Apps json definitions files. Each app defines a REST API hosted in Azure L
 - globantfileupload: moves each file passed into the body-parameter list "files" from storage account container \file into the corresponding SQL table under the schema challenge.
   - method: POST.
   - end point: https://prod-31.eastus.logic.azure.com:443/workflows/c18116983e804ff5a31bb0815509dd85/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=RKQlYz3GvKAb4rndjdwe5Vzcs4kFUBecOd3ZwQ4hC-s
-  - body example: {"file": ["jobs","department"]}
+  - body example: {"files": ["departments", "jobs", "hired_employees"]}
   - note: files will be updated in the same order they were passed in the list. Because of the foreign keys, hired_employees should be the last one to be uploaded.
 - mostHiringDepartments: returns the values required in point two of Section two.
   - method: GET.
