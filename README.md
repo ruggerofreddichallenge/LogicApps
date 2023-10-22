@@ -12,6 +12,7 @@ Logic Apps json definitions files. Each app defines a REST API.
   - method: POST.
   - end point: https://prod-31.eastus.logic.azure.com:443/workflows/c18116983e804ff5a31bb0815509dd85/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=RKQlYz3GvKAb4rndjdwe5Vzcs4kFUBecOd3ZwQ4hC-s
   - body example: {"file": "jobs.csv", "table": "jobs"}
+  - note: because of the foreign keys hired_employees is the last one to be uploaded.
 - mostHiringDepartments: returns the values required in point two of Section two.
   - method: GET.
   - end point: https://prod-01.eastus.logic.azure.com:443/workflows/131caf1661914bf78a56ae79768a808d/triggers/manual/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=bEgkAQRqcqOcfSDd5N1DSC7N_67uuxFaebaO_ING5EQ
