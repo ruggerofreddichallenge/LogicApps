@@ -2,34 +2,40 @@
     "definition": {
         "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
         "actions": {
-            "Create_a_pipeline_run": {
-                "inputs": {
-                    "body": {
-                        "file": "@triggerBody()?['file']",
-                        "table": "@triggerBody()?['table']"
-                    },
-                    "host": {
-                        "connection": {
-                            "name": "@parameters('$connections')['azuredatafactory']['connectionId']"
-                        }
-                    },
-                    "method": "post",
-                    "path": "/subscriptions/@{encodeURIComponent('60f4c113-70b9-4152-866f-7ea1d342ff65')}/resourcegroups/@{encodeURIComponent('test')}/providers/Microsoft.DataFactory/factories/@{encodeURIComponent('globantchallengedf')}/pipelines/@{encodeURIComponent('moving data into db')}/CreateRun",
-                    "queries": {
-                        "x-ms-api-version": "2017-09-01-preview"
+            "For_each": {
+                "actions": {
+                    "Create_a_pipeline_run_2": {
+                        "inputs": {
+                            "body": {
+                                "file": "@items('For_each')"
+                            },
+                            "host": {
+                                "connection": {
+                                    "name": "@parameters('$connections')['azuredatafactory']['connectionId']"
+                                }
+                            },
+                            "method": "post",
+                            "path": "/subscriptions/@{encodeURIComponent('60f4c113-70b9-4152-866f-7ea1d342ff65')}/resourcegroups/@{encodeURIComponent('test')}/providers/Microsoft.DataFactory/factories/@{encodeURIComponent('globantchallengedf')}/pipelines/@{encodeURIComponent('copy files into db')}/CreateRun",
+                            "queries": {
+                                "x-ms-api-version": "2017-09-01-preview"
+                            }
+                        },
+                        "runAfter": {},
+                        "type": "ApiConnection"
                     }
                 },
+                "foreach": "@triggerBody()?['files']",
                 "runAfter": {},
-                "type": "ApiConnection"
+                "type": "Foreach"
             },
             "Response": {
                 "inputs": {
-                    "body": "file @{triggerBody()?['file']} will be copied into sql table challenge.@{triggerBody()?['table']}\nthe process will take a couple of minutes to finish.",
+                    "body": "files @{triggerBody()?['files']} will be copied into the DB.",
                     "statusCode": 200
                 },
                 "kind": "Http",
                 "runAfter": {
-                    "Create_a_pipeline_run": [
+                    "For_each": [
                         "Succeeded"
                     ]
                 },
@@ -50,11 +56,11 @@
                     "method": "POST",
                     "schema": {
                         "properties": {
-                            "file": {
-                                "type": "string"
-                            },
-                            "table": {
-                                "type": "string"
+                            "files": {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
                             }
                         },
                         "type": "object"
